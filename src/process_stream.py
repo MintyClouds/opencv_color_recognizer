@@ -104,11 +104,11 @@ def main(stream_url):
         ceiling_inner_res = process_frames(frame, ceiling_inner_framebuffer, CEILING_INNER_RECTANGLE, True)
         ceiling_outer_res = process_frames(frame, ceiling_outer_framebuffer, CEILING_OUTER_RECTANGLE, True)
 
-        print(snake_res, ceiling_inner_res, ceiling_outer_res)
+        # print(snake_res, ceiling_inner_res, ceiling_outer_res)
 
-        # redis_client.set('snake', 1 if snake_res else 0)
-        # redis_client.set('ceiling_inner', 1 if ceiling_inner_res else 0)
-        # redis_client.set('ceiling_outer', 1 if ceiling_outer_res else 0)
+        redis_client.set('snake', 1 if snake_res else 0)
+        redis_client.set('ceiling_inner', 1 if ceiling_inner_res else 0)
+        redis_client.set('ceiling_outer', 1 if ceiling_outer_res else 0)
 
 
 if __name__ == '__main__':
