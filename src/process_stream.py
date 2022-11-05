@@ -105,9 +105,9 @@ def main(stream_url):
 
         print(snake_res, ceiling_inner_res, ceiling_outer_res)
 
-        redis_client.set('snake', snake_res)
-        redis_client.set('ceiling_inner', ceiling_inner_res)
-        redis_client.set('ceiling_outer', ceiling_outer_res)
+        redis_client.set('snake', 1 if snake_res else 0)
+        redis_client.set('ceiling_inner', 1 if ceiling_inner_res else 0)
+        redis_client.set('ceiling_outer', 1 if ceiling_outer_res else 0)
 
 
 if __name__ == '__main__':

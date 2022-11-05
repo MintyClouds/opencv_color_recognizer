@@ -16,9 +16,9 @@ class LightsResponse(BaseModel):
 @app.get('/', response_model=LightsResponse)
 async def get():
 
-    snake = redis_client.get('snake')
-    ceiling_inner = redis_client.get('ceiling_inner')
-    ceiling_outer = redis_client.get('ceiling_outer')
+    snake = True if redis_client.get('snake') else False
+    ceiling_inner = True if redis_client.get('ceiling_inner') else False
+    ceiling_outer = True if redis_client.get('ceiling_outer') else False
     ceiling_full = ceiling_inner and ceiling_outer
 
     return LightsResponse(
