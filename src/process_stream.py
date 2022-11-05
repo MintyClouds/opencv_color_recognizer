@@ -8,6 +8,7 @@ sys.path.append(os.path.abspath(os.path.join(__file__, *[os.pardir] * 2)))
 from src.redis_utils import get_redis
 
 STREAM_URL = os.getenv('STREAM_URL')
+STREAM_URL = 'rtsp://rtsp:qdhihmLp9SZpP3rq9L@192.168.1.131:554/av_stream/ch0'
 
 BLUR_KERNEL = (5, 5)
 FRAMES_COUNT = 48
@@ -29,8 +30,8 @@ CEILING_INNER_RECTANGLE = {
 CEILING_OUTER_RECTANGLE = {
     'y1': 410,
     'y2': 415,
-    'x1': 1392,
-    'x2': 1397
+    'x1': 1400,
+    'x2': 1405
 }
 
 redis_client = get_redis()
@@ -43,6 +44,9 @@ def recognize_green_white(image, rectangle):
     x2 = rectangle.get('x2')
 
     cropped_image = image[y1:y2, x1:x2]
+
+    if y1 == 410:
+        cv2.imshow('a', cropped_image)
 
     blurred = cv2.blur(cropped_image, BLUR_KERNEL)
 
@@ -105,9 +109,9 @@ def main(stream_url):
 
         print(snake_res, ceiling_inner_res, ceiling_outer_res)
 
-        redis_client.set('snake', 1 if snake_res else 0)
-        redis_client.set('ceiling_inner', 1 if ceiling_inner_res else 0)
-        redis_client.set('ceiling_outer', 1 if ceiling_outer_res else 0)
+        # redis_client.set('snake', 1 if snake_res else 0)
+        # redis_client.set('ceiling_inner', 1 if ceiling_inner_res else 0)
+        # redis_client.set('ceiling_outer', 1 if ceiling_outer_res else 0)
 
 
 if __name__ == '__main__':
