@@ -45,9 +45,6 @@ def recognize_green_white(image, rectangle):
 
     cropped_image = image[y1:y2, x1:x2]
 
-    if y1 == 410:
-        cv2.imshow('a', cropped_image)
-
     blurred = cv2.blur(cropped_image, BLUR_KERNEL)
 
     hsv = cv2.cvtColor(blurred, cv2.COLOR_BGR2HSV)
