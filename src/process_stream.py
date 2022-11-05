@@ -85,7 +85,7 @@ def process_frames(image, framebuffer, processing_rectangle, white_only=False):
         recognize_green_white(image, processing_rectangle)
     )
     avg = np.average(np.array(framebuffer), axis=0)
-    print(avg, processing_rectangle)
+    # print(avg, processing_rectangle)
 
     if white_only:
         return is_white(avg)
