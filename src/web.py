@@ -15,15 +15,17 @@ class LightsResponse(BaseModel):
 
 @app.get('/', response_model=LightsResponse)
 async def get():
+    res = {}
+    keys = ['snake', 'ceiling_inner', 'ceiling_outer']
+    for k in keys:
+        value = redis_client.get(k)
+        if isinstance(value, str):
+            value = int(value)
+        else:
+            value = False
 
-    snake = True if redis_client.get('snake') == 1else False
-    ceiling_inner = True if redis_client.get('ceiling_inner') == 1 else False
-    ceiling_outer = True if redis_client.get('ceiling_outer') == 1 else False
-    ceiling_full = ceiling_inner and ceiling_outer
+        res[k] = True if int(value) == 1 else False
 
-    return LightsResponse(
-        snake=snake,
-        ceiling_inner=ceiling_inner,
-        ceiling_outer=ceiling_outer,
-        ceiling_full=ceiling_full
-    )
+    res['ceiling_full'] = res.get('ceiling_inner') and res.get('ceiling_outer')
+
+    return LightsResponse(**res)
