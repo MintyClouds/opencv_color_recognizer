@@ -1,0 +1,31 @@
+version: "3.8"
+
+services:
+  stream_processer:
+    build:
+      context: .
+      dockerfile: dockerfiles/opencv.Dockerfile
+    #image: "ghcr.io/MintyClouds/openv_color_recognizer:latest"
+    restart: 'unless-stopped'
+    env_file:
+      - .env
+    depends_on:
+      - redis
+    command: 'python src/process_stream.py'
+  web:
+    build:
+      context: .
+      dockerfile: dockerfiles/web.Dockerfile
+    #image: "ghcr.io/MintyClouds/openv_color_recognizer:latest"
+    restart: 'unless-stopped'
+    env_file:
+      - .env
+    ports:
+      - "${WEB_PORT}:8000"
+    depends_on:
+      - redis
+  redis:
+    image: redis:5.0
+    restart: 'unless-stopped'
+    volumes:
+      - ./.docker/redis-data:/datq\
